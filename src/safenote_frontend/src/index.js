@@ -4,16 +4,14 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const button = e.target.querySelector("button");
 
-  const name = document.getElementById("name").value.toString();
-
   button.setAttribute("disabled", true);
 
   // Interact with foo actor, calling the greet method
-  const greeting = await safenote_backend.greet(name);
+  const response = await safenote_backend.readKey('id4a');
 
   button.removeAttribute("disabled");
 
-  document.getElementById("greeting").innerText = greeting;
+  console.log(response);
 
   return false;
 });
