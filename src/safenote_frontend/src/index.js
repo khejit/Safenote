@@ -6,12 +6,18 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   button.setAttribute("disabled", true);
 
-  // Interact with foo actor, calling the greet method
-  const response = await safenote_backend.readKey('id4a');
+
+  try {
+    const testId = "id4a";
+    const response = await safenote_backend.readKey('thisIdDoesNotExist');
+    console.log(response);
+  } catch (e) {
+    console.log(e.message);
+  }
 
   button.removeAttribute("disabled");
 
-  console.log(response);
+  
 
   return false;
 });
