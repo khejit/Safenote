@@ -1,8 +1,6 @@
 import Text "mo:base/Text";
-import Option "mo:base/Option";
 import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
-import Blob "mo:base/Blob";
 import Error "mo:base/Error";
 import Bool "mo:base/Bool";
 
@@ -14,12 +12,13 @@ actor {
 
     // 4 GB / 8 KB per note key (same size as note) ~~ 500 000 notes 
     private let MAX_KEY_CHARS = 2000;
-    private let genericErrorMessage: Text = "Couldn't save note. Try again.";
 
     private var keys = HashMap.HashMap<Types.KeyId, Types.KeyBody>(0, Text.equal, Text.hash);
     private stable var stable_keys: [(Types.KeyId, Types.KeyBody)] = [];
 
     public shared func saveKey(id: Text, key: Text): async Types.KeyId {
+
+        let genericErrorMessage: Text = "Couldn't save note. Try again.";
 
         assert (key.size() <= MAX_KEY_CHARS);
 
@@ -30,7 +29,7 @@ actor {
             keys.put(id, key);
             Debug.print(debug_show(id));
             return id;
-        }        
+        }
     };
 
     public shared func readKey(id: Types.KeyId): async Types.KeyBody {

@@ -9,7 +9,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   try {
     const testId = "id4a";
-    const response = await safenote_backend.readKey('thisIdDoesNotExist');
+    const response = await safenote_backend.readKey(testId);
     console.log(response);
   } catch (e) {
     console.log(e.message);
