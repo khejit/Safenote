@@ -3,19 +3,6 @@
     "safenote_backend": {
       "main": "src/safenote_backend/main.mo",
       "type": "motoko"
-    },
-    "safenote_frontend": {
-      "dependencies": [
-        "safenote_backend"
-      ],
-      "frontend": {
-        "entrypoint": "src/safenote_frontend/src/index.html"
-      },
-      "source": [
-        "src/safenote_frontend/assets",
-        "dist/safenote_frontend/"
-      ],
-      "type": "assets"
     }
   },
   "defaults": {
