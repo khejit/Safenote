@@ -1,12 +1,22 @@
 {
   "canisters": {
-    "safenote_backend": {
+    "safenote_backend_1": {
+      "main": "src/safenote_backend/main.mo",
+      "type": "motoko"
+    },
+    "safenote_backend_2": {
+      "main": "src/safenote_backend/main.mo",
+      "type": "motoko"
+    },
+    "safenote_backend_3": {
       "main": "src/safenote_backend/main.mo",
       "type": "motoko"
     },
     "safenote_frontend": {
       "dependencies": [
-        "safenote_backend"
+        "safenote_backend_1",
+        "safenote_backend_2",
+        "safenote_backend_3"
       ],
       "frontend": {
         "entrypoint": "src/safenote_frontend/src/index.html"

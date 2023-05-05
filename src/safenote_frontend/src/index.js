@@ -1,4 +1,6 @@
-import { safenote_backend } from "../../declarations/safenote_backend";
+import { safenote_backend_1 } from "../../declarations/safenote_backend_1";
+import { safenote_backend_2 } from "../../declarations/safenote_backend_2";
+import { safenote_backend_3 } from "../../declarations/safenote_backend_3";
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -9,7 +11,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
 
   try {
     const testId = "id4a";
-    const response = await safenote_backend.readKey(testId);
+    const response = await safenote_backend_1.readKey(testId);
     console.log(response);
   } catch (e) {
     console.log(e.message);
