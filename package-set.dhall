@@ -11,26 +11,6 @@ let
         , repo = "https://github.com/dfinity/motoko-base.git"
         , version = "moc-0.8.4"
         }
-      , { dependencies = [ "base" ]
-        , name = "mrr"
-        , repo = "https://github.com/research-ag/motoko-lib"
-        , version = "main"
-      }
-      , { dependencies = [] : List Text
-        , name = "base-0.7.3"
-        , repo = "https://github.com/research-ag/motoko-lib"
-        , version = "moc-0.7.3"
-      }
-      , { name = "array"
-        , version = "v0.2.1"
-        , repo = "https://github.com/aviate-labs/array.mo"
-        , dependencies = [ "base-0.7.3" ] : List Text
-      }
-      , { dependencies = [ "base-0.7.3", "array" ]
-        , name = "encoding"
-        , repo = "https://github.com/aviate-labs/encoding.mo"
-        , version = "main"
-      }
     ] : List Package
 
 let

@@ -1,4 +1,2 @@
 [dependencies]
-base = "0.7.3"
-mrr = "https://github.com/research-ag/motoko-lib#main"
-encoding = "https://github.com/aviate-labs/encoding.mo#main"
+base = "0.8.4"
