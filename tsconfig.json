@@ -1,0 +1,39 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "sourceMap": true,
+        // Required in Vue projects
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        // For Vue Options API:
+        // https://vuejs.org/guide/typescript/overview.html#configuring-tsconfig-json
+        "noImplicitThis": true,
+        // <https://devblogs.microsoft.com/typescript/announcing-typescript-5-0/#verbatimmodulesyntax>
+        // Any imports or exports without a type modifier are left around. This is important for `<script setup>`.
+        // Anything that uses the type modifier is dropped entirely.
+        "verbatimModuleSyntax": true,
+        "target": "es5",
+        // For spec compilance.
+        // `true` by default if the `target` is `ES2020` or higher.
+        // Explicitly set it to `true` here in case some users want to overwrite the `target`.
+        "useDefineForClassFields": true,
+        // Recommended
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+    },
+    "paths": {
+        "baseUrl": ".", // This must be specified if "paths" is.
+        "paths": { // This mapping is relative to "baseUrl"
+            "@/*": [
+                "./src/safenote_frontend/src/*" // Change to "./src/your_frontend_path/src/*"
+            ],
+            "vue": [
+                "node_modules/vue/dist/vue.esm-bundler.js"
+            ]
+        }
+    },
+    "files": [
+        "./vue-shim.d.ts",
+    ],
+}

@@ -1,8 +1,13 @@
 {
   "name": "safenote_frontend",
   "version": "0.1.0",
-  "description": "Internet Computer starter application",
-  "keywords": ["Internet Computer", "Motoko", "JavaScript", "Canister"],
+  "description": "SafeNote. A tool for secure notes exchanging.",
+  "keywords": [
+    "Internet Computer",
+    "Motoko",
+    "JavaScript",
+    "Canister"
+  ],
   "scripts": {
     "build": "webpack",
     "prebuild": "npm run generate",
@@ -10,19 +15,36 @@
     "prestart": "npm run generate",
     "generate": "dfx generate safenote_backend_1 && dfx generate safenote_backend_2 && dfx generate safenote_backend_3"
   },
+  "dependencies": {
+    "pinia": "^2.1.3",
+    "vue": "^3.3.2",
+    "vue-router": "^4.2.1"
+  },
   "devDependencies": {
+    "@babel/core": "^7.21.8",
+    "@babel/preset-env": "^7.21.5",
     "@dfinity/agent": "0.15.4",
     "@dfinity/candid": "0.15.4",
     "@dfinity/principal": "0.15.4",
     "assert": "2.0.0",
+    "autoprefixer": "^10.4.14",
+    "babel-loader": "^9.1.2",
     "buffer": "6.0.3",
     "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.4",
     "events": "3.3.0",
     "html-webpack-plugin": "5.5.0",
+    "node-sass": "^8.0.0",
+    "postcss-loader": "^7.3.0",
     "process": "0.11.10",
+    "sass-loader": "^13.2.2",
     "stream-browserify": "3.0.0",
+    "style-loader": "^3.3.3",
     "terser-webpack-plugin": "^5.3.3",
+    "ts-loader": "^9.4.2",
+    "typescript": "^5.0.4",
     "util": "0.12.4",
+    "vue-loader": "^17.1.1",
     "webpack": "^5.73.0",
     "webpack-cli": "^4.10.0",
     "webpack-dev-server": "^4.8.1"
@@ -31,9 +53,8 @@
     "node": "^12 || ^14 || ^16 || ^18"
   },
   "browserslist": [
-    "last 2 chrome version",
-    "last 2 firefox version",
-    "last 2 safari version",
-    "last 2 edge version"
+    "> 1%",
+    "last 2 versions",
+    "not dead"
   ]
 }

@@ -3,6 +3,7 @@ const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const { VueLoaderPlugin } = require("vue-loader");
 
 function initCanisterEnv() {
   let localCanisters, prodCanisters;
@@ -40,6 +41,8 @@ const isDevelopment = process.env.NODE_ENV !== "production";
 
 const frontendDirectory = "safenote_frontend";
 
+const frontendSrcDirectory = path.join(__dirname, "src", frontendDirectory, "src");
+
 const frontend_entry = path.join("src", frontendDirectory, "src", "index.html");
 
 module.exports = {
@@ -56,7 +59,11 @@ module.exports = {
     minimizer: [new TerserPlugin()],
   },
   resolve: {
-    extensions: [".js", ".ts", ".jsx", ".tsx"],
+    extensions: [".js", ".ts", ".vue", ".jsx", ".tsx"],
+    alias: {
+      'vue': 'vue/dist/vue.esm-bundler.js',
+      '@': frontendSrcDirectory
+    },
     fallback: {
       assert: require.resolve("assert/"),
       buffer: require.resolve("buffer/"),
@@ -69,19 +76,65 @@ module.exports = {
     filename: "index.js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
-
-  // Depending in the language or framework you are using for
-  // front-end development, add module loaders to the default
-  // webpack configuration. For example, if you are using React
-  // modules and CSS as described in the "Adding a stylesheet"
-  // tutorial, uncomment the following lines:
-  // module: {
-  //  rules: [
-  //    { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
-  //    { test: /\.css$/, use: ['style-loader','css-loader'] }
-  //  ]
-  // },
+  module: {
+    rules: [
+      {
+        test: /\.(ts|js)x?/,
+        exclude: {
+          and: [/node_modules/],
+          not: [
+            // Any dependency that needs to be compiled can be added to this array
+            /module-a/,
+            /module-b/
+          ]
+        },
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              appendTsSuffixTo: [/\.vue$/],
+              transpileOnly: true
+            }
+          },
+          "babel-loader",
+        ]
+      },
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          'style-loader',
+          {
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              postcssOptions: {
+                plugins: [
+                  ["autoprefixer"]
+                ]
+              }
+            }
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              additionalData: `@import "@/scss/_variables.scss";`
+            }
+          },
+        ]
+      }
+    ]
+  },
   plugins: [
+    new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
       cache: false,
