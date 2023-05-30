@@ -79,7 +79,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?/,
+        test: /\.jsx?$/,
+        loader: "babel-loader",
         exclude: {
           and: [/node_modules/],
           not: [
@@ -87,17 +88,27 @@ module.exports = {
             /module-a/,
             /module-b/
           ]
-        },
+        }
+      },
+      { // https://github.com/TypeStrong/ts-loader#appendtsxsuffixto
+        test: /\.ts$/,
+        loader: 'ts-loader',
+        options: {
+          appendTsSuffixTo: [/TS\.vue$/],
+          transpileOnly: isDevelopment
+        }
+      },
+      {
+        test: /\.tsx$/,
         use: [
+          "babel-loader",
           {
             loader: "ts-loader",
             options: {
-              appendTsSuffixTo: [/\.vue$/],
-              transpileOnly: true
+              appendTsxSuffixTo: [/TSX\.vue$/],
+              transpileOnly: isDevelopment
             }
-          },
-          "babel-loader",
-        ]
+          }]
       },
       {
         test: /\.vue$/,
@@ -134,6 +145,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      // Drop Options API from bundle
+      __VUE_OPTIONS_API__: true,
+      __VUE_PROD_DEVTOOLS__: false,
+    }),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),

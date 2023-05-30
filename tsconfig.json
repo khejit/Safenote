@@ -27,9 +27,6 @@
         "paths": { // This mapping is relative to "baseUrl"
             "@/*": [
                 "./src/safenote_frontend/src/*" // Change to "./src/your_frontend_path/src/*"
-            ],
-            "vue": [
-                "node_modules/vue/dist/vue.esm-bundler.js"
             ]
         }
     },
