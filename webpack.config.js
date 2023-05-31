@@ -81,14 +81,13 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loader: "babel-loader",
-        exclude: {
-          and: [/node_modules/],
-          not: [
-            // Any dependency that needs to be compiled can be added to this array
-            /module-a/,
-            /module-b/
-          ]
-        }
+        // https://vue-loader.vuejs.org/guide/pre-processors.html#excluding-node-modules
+        exclude: file => (
+          /node_modules/.test(file) &&
+          !/\.vue\.js/.test(file) &&
+          // Any dependency that needs to be compiled can be added below
+          !/module-a|module-b/.test(file)
+        )
       },
       { // https://github.com/TypeStrong/ts-loader#appendtsxsuffixto
         test: /\.ts$/,
@@ -137,7 +136,7 @@ module.exports = {
           {
             loader: 'sass-loader',
             options: {
-              additionalData: `@import "@/scss/_variables.scss";`
+              additionalData: `@import "@/scss/common.scss";`
             }
           },
         ]
