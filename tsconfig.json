@@ -1,6 +1,8 @@
 {
     "compilerOptions": {
         "allowJs": true,
+        "target": "es5",
+        "module": "esnext",
         "sourceMap": true,
         // Required in Vue projects
         "jsx": "preserve",
@@ -12,7 +14,6 @@
         // Any imports or exports without a type modifier are left around. This is important for `<script setup>`.
         // Anything that uses the type modifier is dropped entirely.
         "verbatimModuleSyntax": true,
-        "target": "es5",
         // For spec compilance.
         // `true` by default if the `target` is `ES2020` or higher.
         // Explicitly set it to `true` here in case some users want to overwrite the `target`.
@@ -21,8 +22,6 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-    },
-    "paths": {
         "baseUrl": ".", // This must be specified if "paths" is.
         "paths": { // This mapping is relative to "baseUrl"
             "@/*": [
@@ -30,6 +29,15 @@
             ]
         }
     },
+    "include": [
+        "src/safenote_frontend/src/**/*.ts",
+        "src/safenote_frontend/src/**/*.d.ts",
+        "src/safenote_frontend/src/**/*.tsx",
+        "src/safenote_frontend/src/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules"
+    ],
     "files": [
         "./vue-shim.d.ts",
     ],
