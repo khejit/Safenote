@@ -3,6 +3,7 @@
         "allowJs": true,
         "target": "es5",
         "module": "esnext",
+        "moduleResolution": "node",
         "sourceMap": true,
         // Required in Vue projects
         "jsx": "preserve",
@@ -22,12 +23,6 @@
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "skipLibCheck": true,
-        "baseUrl": ".", // This must be specified if "paths" is.
-        "paths": { // This mapping is relative to "baseUrl"
-            "@/*": [
-                "./src/safenote_frontend/src/*" // Change to "./src/your_frontend_path/src/*"
-            ]
-        }
     },
     "include": [
         "src/safenote_frontend/src/**/*.ts",
