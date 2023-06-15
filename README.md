@@ -1,4 +1,4 @@
-# SafeNote
+# Safenote
 A tool for secure notes exchanging. Built for Internet Computer.
 
 ## Running the project locally

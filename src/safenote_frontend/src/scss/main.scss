@@ -1,6 +1,43 @@
+@import "reset";
 
+html {
+    font-size: 62.5%;
+}
 
-p {
-    color: $blue;
-    border-block-start: solid;
+*,
+*:after,
+*:before {
+    box-sizing: border-box;
+}
+
+body {
+    font-size: 1.6rem;
+}
+
+body {
+    font-family: $font-main;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: -0.01em;
+    * {
+        letter-spacing: inherit;
+    }
+}
+
+button {
+    font-family: $font-main;
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
+a {
+    color: inherit;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
 }
