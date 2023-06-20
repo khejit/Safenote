@@ -40,7 +40,7 @@ export default {
     components: {
         Layout, Button, Heading, Alert, NoteLoader
     },
-    async mounted() {
+    mounted() {
         function makeUrl(length) {
             let result = '';
             const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -59,35 +59,12 @@ export default {
         
         var text = 'Some secret note to encrypt with key 💁👌🎍😍.';
 
-        const hashBuffer = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("url")),
-        hashArray = Array.from(new Uint8Array(hashBuffer));
+        const encrypted = aes.encrypt(text, url),
+            decrypted = aes.decrypt(encrypted, url),
+            decryptedText = decrypted.toString(utf8);
 
-        
-        // An example 128-bit key (16 bytes * 8 bits/byte = 128 bits)
-        var key = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
-
-        // Convert text to bytes
-        var textBytes = aesjs.utils.utf8.toBytes(encodeURIComponent(text));
-
-        // The counter is optional, and if omitted will begin at 1
-        var aesCtr = new aesjs.ModeOfOperation.ctr(hashArray, new aesjs.Counter(5));
-        var encryptedBytes = aesCtr.encrypt(textBytes);
-
-        // To print or store the binary data, you may convert it to hex
-        var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
-        console.log(encryptedHex);
-
-        // When ready to decrypt the hex string, convert it back to bytes
-        var encryptedBytes2 = aesjs.utils.hex.toBytes(encryptedHex);
-
-        // The counter mode of operation maintains internal state, so to
-        // decrypt a new instance must be instantiated.
-        var aesCtr2 = new aesjs.ModeOfOperation.ctr(hashArray, new aesjs.Counter(5));
-        var decryptedBytes = aesCtr2.decrypt(encryptedBytes2);
-
-        // Convert our bytes back into text
-        var decryptedText = decodeURIComponent(aesjs.utils.utf8.fromBytes(decryptedBytes));
         console.log(decryptedText);
+
         this.noteText = decryptedText;
     },
     data() {
