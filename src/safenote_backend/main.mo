@@ -21,6 +21,7 @@ actor {
         let genericErrorMessage: Text = "Couldn't save note. Try again.";
 
         assert (key.size() <= MAX_KEY_CHARS);
+        assert (id != "") and (key != "");
 
         if (idExists(id)) {
             Debug.print(genericErrorMessage);

@@ -1,7 +1,3 @@
-import { safenote_backend_1 } from "../../declarations/safenote_backend_1";
-import { safenote_backend_2 } from "../../declarations/safenote_backend_2";
-import { safenote_backend_3 } from "../../declarations/safenote_backend_3";
-
 
 import { createApp } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
