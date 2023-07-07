@@ -1,20 +1,28 @@
 <script lang="ts">
 import { defineStore } from 'pinia';
-import {ref, computed} from 'vue';
+import { inject, computed} from 'vue';
+
 import type EncryptionManager from '@/classes/EncryptionManager';
 
 export const useEncryptionStore = defineStore('encryption', () => {
-    let encryptionManager: EncryptionManager = ref(null);
+    const encryptionManager = inject('EncryptionManager') as EncryptionManager;
 
-    function setEncryptionManager(instance: EncryptionManager) {
-        encryptionManager = instance
-    };
+    const masterKey = computed(() => encryptionManager.getMasterKey(),),
+        masterKeyHash = computed(() => encryptionManager.getMasterKeyHash());
 
-    const key = computed(() => encryptionManager.getKey(),)
+    function setMasterKey (key: string) {
+        encryptionManager.setMasterKey(key)
+    }
+
+    function generateKeys (noteText: string) {
+        return encryptionManager.generateNoteKeys(noteText)
+    }
 
     return {
-        key,
-        setEncryptionManager
+        masterKey,
+        masterKeyHash,
+        setMasterKey,
+        generateKeys
     }
 })
 

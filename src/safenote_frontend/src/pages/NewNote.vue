@@ -14,38 +14,24 @@
     </Layout>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import Layout from '@/components/Layout.vue';
 import Button from '@/components/Button.vue';
 
 import type BackendService from '@/classes/BackendService';
 
-import { mapState } from 'pinia';
 import { useEncryptionStore } from '@/store.vue';
-import { inject } from 'vue';
+import { ref, inject } from 'vue';
 
-export default {
-    components: {
-        Layout, Button
-    },
-    data() {
-        return {
-            newNoteText: ''
-        }
-    },
-    computed: {
-        ...mapState(useEncryptionStore, {
-            masterKey: 'key'
-        }),
-        backendService(){
-            return inject('BackendService') as BackendService
-        }
-    },
-    methods: {
-        saveNote() {
-            this.backendService.saveNoteKeys(this.masterKey, this.newNoteText)
-        }
-    }
+const backendService = inject('BackendService') as BackendService;
+
+const newNoteText = ref(''),
+    store = useEncryptionStore(),
+    masterKeyHash = store.masterKeyHash;
+
+async function saveNote() {
+    const keys = store.generateKeys(newNoteText.value);
+    await backendService.saveNoteKeys(masterKeyHash, keys);
 }
 </script>
 

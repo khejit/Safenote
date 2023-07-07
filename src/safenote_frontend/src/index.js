@@ -15,7 +15,7 @@ const routes = [
   { path: '/privacy-policy', component: PrivacyPolicy },
   { path: '/donate', component: Donate },
   { path: '/contact', component: Contact },
-  { path: '/:pathMatch(.*)*', component: ReadNote }
+  { path: '/:pathMatch(.*)*', name: 'readNote' , component: ReadNote }
 ];
 
 const router = createRouter({

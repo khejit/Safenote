@@ -30,14 +30,15 @@ import Heading from '@/components/Heading.vue';
 import Alert from '@/components/Alert.vue';
 import NoteLoader from '@/components/NoteLoader.vue';
 
-import type EncryptionManager from '@/classes/EncryptionManager';
+import type BackendService from '@/classes/BackendService';
 
 import { useEncryptionStore } from '@/store.vue';
 import { nextTick, inject, ref, onMounted } from 'vue';
 
-const store = useEncryptionStore(),
-    masterKey = store.key,
-    encryptionManager = inject('EncryptionManager') as EncryptionManager;
+import { useRoute } from 'vue-router';
+
+const store = useEncryptionStore();
+const backendService = inject('BackendService') as BackendService;
 
 const noteField = ref(null);
 
@@ -52,15 +53,10 @@ Vel sapiente qui nesciunt corporis et enim. Et veritatis a omnis repellat rerum 
 Enim corrupti sit et. Voluptas quam placeat quam saepe ut sit. Eos tempora voluptatum nobis suscipit. Quaerat totam quia natus aut et dolores et dolores. Delectus omnis magni aspernatur. Sit neque a qui dolorum quisquam assumenda.`);
 
 onMounted(()=>{
-    var text = 'Some secret note to encrypt with key 💁👌🎍😍.';
+    const route = useRoute(),
+        masterKey: string = route.params.pathMatch.at(-1);
 
-    const encrypted = encryptionManager.aesEncrypt(text),
-        decrypted = encryptionManager.aesDecrypt(encrypted);
-
-    const test = masterKey;
-    console.log(test);
-
-    noteText.value = decrypted;
+    store.setMasterKey(masterKey);
 });
 
 async function readNote() {
