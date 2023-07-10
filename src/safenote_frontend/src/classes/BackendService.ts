@@ -8,7 +8,7 @@ export default class {
     }
 
     async readNoteKeys(id): string[] {
-        const response = await Promise.all(safenote_backend_1.read_key(id), safenote_backend_2.read_key(id), safenote_backend_3.read_key(id));
+        const response = await Promise.all([safenote_backend_1.readKey(id), safenote_backend_2.readKey(id), safenote_backend_3.readKey(id)]);
         return response;
     }
 

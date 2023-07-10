@@ -4,6 +4,8 @@ import hex from 'crypto-js/enc-hex';
 import utf8 from 'crypto-js/enc-utf8';
 import cryptoRandomString from 'crypto-random-string';
 
+import curry from '@/helpers/curry';
+
 export default class {
     masterKey: string;
     textEncoder = new TextEncoder();
@@ -47,23 +49,25 @@ export default class {
     }
 
     generateNoteKeys(noteText): string[] {
+        const curriedXor = curry(this.xor);
+
         const encryptedNote = this.aesEncrypt(noteText).toString(),
             key1 = cryptoRandomString({ length: encryptedNote.length }),
             key2 = cryptoRandomString({ length: encryptedNote.length });
 
-        const key1bin = this.str2bin(key1),
-            key2bin = this.str2bin(key2),
-            encryptedNotebin = this.str2bin(encryptedNote);
-
-        const keysXored = this.xor(this.str2bin(key1), this.str2bin(key2)),
-            keysAndNoteXored = this.xor(keysXored, this.str2bin(encryptedNote));
-
-        const stringKeysAndNoteXored = this.bin2str(keysAndNoteXored),
-            encryptedMessageUnxored = this.bin2str(this.xor(keysAndNoteXored, keysXored));
-
-        // debugger;
+        const keysAndNoteXored = curriedXor([key1, key2, encryptedNote].map(k=>this.str2bin(k)));
 
         return [key1, key2, this.bin2str(keysAndNoteXored)];
+    }
+
+    getNoteFromKeys(keys) {
+        const curriedXor = curry(this.xor);
+
+        const xored = curriedXor(keys.map(key=>this.str2bin(key))),
+            xoredToString = this.bin2str(xored),
+            decrypted = this.aesDecrypt(xoredToString);
+
+        return decrypted;
     }
 
     getMasterKeyHash() {
