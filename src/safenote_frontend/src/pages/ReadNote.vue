@@ -30,7 +30,7 @@ import Heading from '@/components/Heading.vue';
 import Alert from '@/components/Alert.vue';
 import NoteLoader from '@/components/NoteLoader.vue';
 
-import type BackendService from '@/classes/BackendService';
+import BackendService from '@/classes/BackendService';
 
 import { useEncryptionStore } from '@/store.vue';
 import { nextTick, inject, ref, onMounted } from 'vue';
