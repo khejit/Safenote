@@ -30,7 +30,7 @@ import Heading from '@/components/Heading.vue';
 import Alert from '@/components/Alert.vue';
 import NoteLoader from '@/components/NoteLoader.vue';
 
-import type BackendService from '@/classes/BackendService';
+import BackendService from '@/classes/BackendService';
 
 import { useEncryptionStore } from '@/store.vue';
 import { nextTick, inject, ref, onMounted } from 'vue';
@@ -44,13 +44,7 @@ const noteField = ref(null);
 
 let isConfirmed = ref(false),
     isLoaded = ref(false),
-    noteText = ref(`Unde et velit iste. Ad autem maxime voluptatem repellendus quo. Quas voluptatem dignissimos est.
-
-Et nihil repellendus officia labore magnam. Assumenda earum at voluptatibus ut quia. Rerum eum hic consectetur quidem quo et.
-
-Vel sapiente qui nesciunt corporis et enim. Et veritatis a omnis repellat rerum odio. Dolor eius vero quia quod facilis optio tempore. Sint enim expedita quas distinctio accusantium. Dolor et sunt quia.
-
-Enim corrupti sit et. Voluptas quam placeat quam saepe ut sit. Eos tempora voluptatum nobis suscipit. Quaerat totam quia natus aut et dolores et dolores. Delectus omnis magni aspernatur. Sit neque a qui dolorum quisquam assumenda.`);
+    noteText = ref(``);
 
 onMounted(()=>{
     const route = useRoute(),
@@ -61,16 +55,17 @@ onMounted(()=>{
 
 async function readNote() {
     isConfirmed.value = true;
+    const keys = await backendService.readNoteKeys(store.masterKeyHash),
+        note = store.getNote(keys);
+
+    noteText.value = note;
+    isLoaded.value = true;
     await nextTick();
-    setTimeout(async () => {
-        isLoaded.value = true;
-        await nextTick();
-        matchNoteHeight();
-    }, 2500);
+    matchNoteHeight();
 };
 
 function matchNoteHeight() {
-    const noteFieldVal = noteField.value;
+    const noteFieldVal = noteField.value as HTMLTextAreaElement;
     noteFieldVal && (noteFieldVal.style.height = noteFieldVal.scrollHeight + 30 + "px");
 };
 </script>

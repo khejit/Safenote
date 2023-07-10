@@ -18,11 +18,16 @@ export const useEncryptionStore = defineStore('encryption', () => {
         return encryptionManager.generateNoteKeys(noteText)
     }
 
+    function getNote(keys: string[]) {
+        return encryptionManager.getNoteFromKeys(keys)
+    }
+
     return {
         masterKey,
         masterKeyHash,
         setMasterKey,
-        generateKeys
+        generateKeys,
+        getNote
     }
 })
 
