@@ -4,18 +4,21 @@ import hex from 'crypto-js/enc-hex';
 import utf8 from 'crypto-js/enc-utf8';
 import cryptoRandomString from 'crypto-random-string';
 
+import { ref } from 'vue';
 import curry from '@/helpers/curry';
 
+export const defaultKeyLength = 10;
+
 export default class {
-    masterKey: string;
+    masterKey = ref<string>('');
     textEncoder = new TextEncoder();
     textDecoder = new TextDecoder();
 
-    constructor(keyLength) {
-        this.masterKey = this.generateMasterKey(keyLength);
+    constructor() {
+        
     }
 
-    private generateMasterKey(length): string {
+    generateMasterKey(length = defaultKeyLength): string {
         const urlCompatibleChars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_'; // must be 64 optional url characters for below to work
 
         const baseArray = new Uint8Array(length);
@@ -25,11 +28,7 @@ export default class {
     }
 
     setMasterKey(key) {
-        this.masterKey = key
-    }
-
-    getMasterKey() {
-        return this.masterKey
+        this.masterKey.value = key;
     }
 
     private str2bin(str) {
@@ -71,17 +70,17 @@ export default class {
     }
 
     getMasterKeyHash() {
-        return this.sha256(this.masterKey)
+        return this.sha256(this.masterKey.value)
     }
 
     aesEncrypt(toEncrypt) {
         // todo: wrap in try catch
-        return aes.encrypt(toEncrypt, this.masterKey)
+        return aes.encrypt(toEncrypt, this.masterKey.value)
     }
 
     aesDecrypt(encrypted) {
         // todo: wrap in try catch
-        return aes.decrypt(encrypted, this.masterKey).toString(utf8)
+        return aes.decrypt(encrypted, this.masterKey.value).toString(utf8)
     }
 
     private sha256(toHash) {

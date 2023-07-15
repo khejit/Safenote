@@ -31,7 +31,7 @@ export default class {
 
     async handleSaveKey(backend: safenote_backend_1 | safenote_backend_2 | safenote_backend_3, params) {
         try {
-            await retry3Times(backend.saveKey.bind(null, params.id, params.key), () => {
+            return await retry3Times(backend.saveKey.bind(null, params.id, params.key), () => {
                 this.successful.push(backend);
             });
         } catch {

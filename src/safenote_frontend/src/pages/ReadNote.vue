@@ -29,13 +29,17 @@ import Button from '@/components/Button.vue';
 import Heading from '@/components/Heading.vue';
 import Alert from '@/components/Alert.vue';
 import NoteLoader from '@/components/NoteLoader.vue';
+import Error from '@/components/Error';
 
 import type BackendService from '@/classes/BackendService';
 
-import { useEncryptionStore } from '@/store.vue';
+import { useEncryptionStore } from '@/store';
 import { nextTick, inject, ref, onMounted } from 'vue';
 
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+
+const router = useRouter(),
+    route = useRoute();
 
 const store = useEncryptionStore();
 const backendService = inject('BackendService') as BackendService;
@@ -47,27 +51,36 @@ let isConfirmed = ref(false),
     noteText = ref(``);
 
 onMounted(()=>{
-    const route = useRoute(),
-        masterKey: string = route.params.pathMatch.at(-1);
-
+    console.log('readnote mounted');
+    const masterKey: string = route.params.pathMatch.at(-1);
     store.setMasterKey(masterKey);
 });
 
 async function readNote() {
     isConfirmed.value = true;
-    const keys = await backendService.readNoteKeys(store.masterKeyHash),
-        note = store.getNote(keys);
+    try {
+        const keys = await backendService.readNoteKeys(store.masterKeyHash),
+            note = store.getNote(keys);
 
-    noteText.value = note;
-    isLoaded.value = true;
-    await nextTick();
-    matchNoteHeight();
+        noteText.value = note;
+        isLoaded.value = true;
+        await nextTick();
+        matchNoteHeight();
+    } catch (e){
+        Error.show(e)
+    }
 };
 
 function matchNoteHeight() {
     const noteFieldVal = noteField.value as HTMLTextAreaElement;
     noteFieldVal && (noteFieldVal.style.height = noteFieldVal.scrollHeight + 30 + "px");
 };
+
+router.afterEach(async (to, from) => {
+    if (to.name === 'readNote') {
+        console.log('readNote route loaded');
+    }
+})
 </script>
 
 <style lang="scss">

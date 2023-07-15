@@ -3,8 +3,9 @@ export const retry = function(numOfRetries){
         fn, callback, retries = numOfRetries
     ) => {
         try {
-            await fn();
-            callback()
+            const returnVal = await fn();
+            callback();
+            return returnVal;
         } catch (err) {
             if (retries <= 0) {
                 return Promise.reject();

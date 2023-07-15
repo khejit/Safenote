@@ -1,7 +1,9 @@
 <template>
     <header class="header" :class="classNames">
         <div class="header__inner">
-            <Logo />
+            <router-link to="/">
+                <Logo />
+            </router-link>
         </div>
     </header>
 </template>

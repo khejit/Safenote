@@ -2,12 +2,21 @@
     <Layout>
         <div class="new-note">
             <form action="" method="post" class="new-note__form">
-                <textarea class="new-note__input" v-model="newNoteText" placeholder="Your safe note goes here..." />
-                <fieldset class="new-note__buttons row">
-                    <Button white>
+                <textarea :readonly="success" class="new-note__input" v-model="newNoteText"
+                    placeholder="Your safe note goes here..." />
+                <fieldset v-if="!success" class="new-note__buttons row">
+                    <Button white @click.prevent="newNoteText = ''">
                         Clear text field
                     </Button>
-                    <Button @click.prevent="saveNote">Create note</Button>
+                    <Button @click.prevent="saveNote">
+                        <Spinner v-if="saving"></Spinner>
+                        <template v-else>
+                            Create note
+                        </template>
+                    </Button>
+                </fieldset>
+                <fieldset v-else class="new-note__buttons row">
+                    <Button @click.prevent="copyLink">{{ copyLinkText }}</Button>
                 </fieldset>
             </form>
         </div>
@@ -17,22 +26,71 @@
 <script setup lang="ts">
 import Layout from '@/components/Layout.vue';
 import Button from '@/components/Button.vue';
+import Error from '@/components/Error';
+import Spinner from '@/components/Spinner.vue';
 
 import type BackendService from '@/classes/BackendService';
 
-import { useEncryptionStore } from '@/store.vue';
-import { ref, inject } from 'vue';
+import { useEncryptionStore } from '@/store';
+import { ref, inject, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 const backendService = inject('BackendService') as BackendService;
 
-const newNoteText = ref(''),
+const newNoteText = ref<string>(''),
     store = useEncryptionStore(),
-    masterKeyHash = store.masterKeyHash;
+    saving = ref<boolean>(false),
+    success = ref<boolean>(false),
+    copyLinkText = ref<string>('Copy link'),
+    router = useRouter();
+
+onMounted(()=>{
+    console.log('newnote mounted');
+    
+    store.resetMasterKey();
+})
 
 async function saveNote() {
-    const keys = store.generateKeys(newNoteText.value);
-    await backendService.saveNoteKeys(masterKeyHash, keys);
+    saving.value = true;
+
+    const keys = store.generateKeys(newNoteText.value),
+        resultHashes = await backendService.saveNoteKeys(store.masterKeyHash, keys);
+
+    if (resultHashes.every(hash => hash === store.masterKeyHash)) {
+        showNoteLink()
+    } else {
+        handleError()
+    }
+
+    saving.value = false;
 }
+
+function copyLink() {
+    navigator.clipboard.writeText(newNoteText.value);
+    copyLinkText.value = 'Copied!';
+    setTimeout(() => {
+        copyLinkText.value = 'Copy link'
+    }, 6 * 1000)
+}
+
+function showNoteLink() {
+    newNoteText.value = window.location.href + store.masterKey;
+    success.value = true;
+}
+
+function handleError() {
+    newNoteText.value = '';
+    success.value = false;
+    store.resetMasterKey();
+    Error.show();
+}
+
+router.afterEach(async (to, from) => {
+    
+    if (to.name === 'newNote') {    
+        console.log('newNote route loaded')
+    }
+})
 </script>
 
 <style lang="scss">

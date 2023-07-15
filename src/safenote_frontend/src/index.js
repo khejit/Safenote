@@ -10,8 +10,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Donate from "./pages/Donate";
 import Contact from "./pages/Contact";
 
+
 const routes = [
-  { path: '/', component: NewNote },
+  { path: '/', name: 'newNote', component: NewNote },
   { path: '/privacy-policy', component: PrivacyPolicy },
   { path: '/donate', component: Donate },
   { path: '/contact', component: Contact },
