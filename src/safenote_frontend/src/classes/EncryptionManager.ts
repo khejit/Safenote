@@ -74,12 +74,10 @@ export default class {
     }
 
     aesEncrypt(toEncrypt) {
-        // todo: wrap in try catch
         return aes.encrypt(toEncrypt, this.masterKey.value)
     }
 
     aesDecrypt(encrypted) {
-        // todo: wrap in try catch
         return aes.decrypt(encrypted, this.masterKey.value).toString(utf8)
     }
 

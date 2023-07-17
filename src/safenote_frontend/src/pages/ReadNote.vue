@@ -36,10 +36,9 @@ import type BackendService from '@/classes/BackendService';
 import { useEncryptionStore } from '@/store';
 import { nextTick, inject, ref, onMounted } from 'vue';
 
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
-const router = useRouter(),
-    route = useRoute();
+const route = useRoute();
 
 const store = useEncryptionStore();
 const backendService = inject('BackendService') as BackendService;
@@ -51,7 +50,6 @@ let isConfirmed = ref(false),
     noteText = ref(``);
 
 onMounted(()=>{
-    console.log('readnote mounted');
     const masterKey: string = route.params.pathMatch.at(-1);
     store.setMasterKey(masterKey);
 });
@@ -75,12 +73,6 @@ function matchNoteHeight() {
     const noteFieldVal = noteField.value as HTMLTextAreaElement;
     noteFieldVal && (noteFieldVal.style.height = noteFieldVal.scrollHeight + 30 + "px");
 };
-
-router.afterEach(async (to, from) => {
-    if (to.name === 'readNote') {
-        console.log('readNote route loaded');
-    }
-})
 </script>
 
 <style lang="scss">

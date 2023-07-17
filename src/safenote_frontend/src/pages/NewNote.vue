@@ -33,7 +33,6 @@ import type BackendService from '@/classes/BackendService';
 
 import { useEncryptionStore } from '@/store';
 import { ref, inject, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
 
 const backendService = inject('BackendService') as BackendService;
 
@@ -41,25 +40,32 @@ const newNoteText = ref<string>(''),
     store = useEncryptionStore(),
     saving = ref<boolean>(false),
     success = ref<boolean>(false),
-    copyLinkText = ref<string>('Copy link'),
-    router = useRouter();
+    copyLinkText = ref<string>('Copy link');
 
-onMounted(()=>{
-    console.log('newnote mounted');
-    
+onMounted(()=>{    
     store.resetMasterKey();
 })
 
 async function saveNote() {
     saving.value = true;
 
-    const keys = store.generateKeys(newNoteText.value),
-        resultHashes = await backendService.saveNoteKeys(store.masterKeyHash, keys);
+    if(newNoteText.value === '') {        
+        Error.show("Note text can't be empty.");        
+        saving.value = false;
+        return false;
+    }
 
-    if (resultHashes.every(hash => hash === store.masterKeyHash)) {
-        showNoteLink()
-    } else {
-        handleError()
+    try {
+        const keys = store.generateKeys(newNoteText.value),
+            resultHashes = await backendService.saveNoteKeys(store.masterKeyHash, keys);
+
+        if (resultHashes.every(hash => hash === store.masterKeyHash)) {
+            showNoteLink()
+        } else {
+            handleGenericError()
+        }
+    } catch (e) {
+        Error.show(e)
     }
 
     saving.value = false;
@@ -78,19 +84,12 @@ function showNoteLink() {
     success.value = true;
 }
 
-function handleError() {
-    newNoteText.value = '';
+function handleGenericError() {
+    // newNoteText.value = '';
     success.value = false;
     store.resetMasterKey();
     Error.show();
 }
-
-router.afterEach(async (to, from) => {
-    
-    if (to.name === 'newNote') {    
-        console.log('newNote route loaded')
-    }
-})
 </script>
 
 <style lang="scss">

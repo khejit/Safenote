@@ -3,12 +3,12 @@ import { createApp } from 'vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { createPinia } from 'pinia';
 
-import App from "./App";
-import NewNote from "./pages/NewNote";
-import ReadNote from "./pages/ReadNote";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import Donate from "./pages/Donate";
-import Contact from "./pages/Contact";
+import App from "./App.vue";
+import NewNote from "./pages/NewNote.vue";
+import ReadNote from "./pages/ReadNote.vue";
+import PrivacyPolicy from "./pages/PrivacyPolicy.vue";
+import Donate from "./pages/Donate.vue";
+import Contact from "./pages/Contact.vue";
 
 
 const routes = [

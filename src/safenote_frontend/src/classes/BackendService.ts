@@ -29,26 +29,26 @@ export default class {
         this.successful = []
     }
 
-    async handleSaveKey(backend: safenote_backend_1 | safenote_backend_2 | safenote_backend_3, params) {
+    async handleSaveKey(backend: typeof safenote_backend_1 | typeof safenote_backend_2 | typeof safenote_backend_3, params) {
         try {
             return await retry3Times(backend.saveKey.bind(null, params.id, params.key), () => {
                 this.successful.push(backend);
             });
         } catch {
             this.clearSuccessful(params.id);
+            throw Error("Couldn't save note. Try again.");
         }
     }
 
-    async handleReadKey(backend: safenote_backend_1 | safenote_backend_2 | safenote_backend_3, id) {
+    async handleReadKey(backend: typeof safenote_backend_1 | typeof safenote_backend_2 | typeof safenote_backend_3, id) {
         try {
             return await backend.readKey(id)
         } catch {
-            // todo: notify user there was error, clear the app state
             throw Error("Couldn't read one or more keys from backend.")
         }
     }
 
-    async readNoteKeys(id): string[] {
+    async readNoteKeys(id): Promise<string[]> {
         const responses = await Promise.all(backends.map(b => this.handleReadKey(b, id)));
         return responses;
     }
