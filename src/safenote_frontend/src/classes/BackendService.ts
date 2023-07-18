@@ -1,10 +1,15 @@
-import { safenote_backend_1 } from "@/../../declarations/safenote_backend_1";
-import { safenote_backend_2 } from "@/../../declarations/safenote_backend_2";
-import { safenote_backend_3 } from "@/../../declarations/safenote_backend_3";
+import { HttpAgent } from "@dfinity/agent";
 
-const backend_1 = safenote_backend_1,
-    backend_2 = safenote_backend_2,
-    backend_3 = safenote_backend_3;
+import SafenoteActor from './SafenoteActor';
+import { canisterId1, canisterId2, canisterId3, idlFactory1, idlFactory2, idlFactory3 } from './SafenoteActor';
+
+const isProduction = process.env.NODE_ENV === 'production',
+    host = isProduction ? 'https://icp0.io' : undefined,
+    agent = new HttpAgent({ host });
+
+const backend_1 = new SafenoteActor(canisterId1, { agent }).create(idlFactory1),
+    backend_2 = new SafenoteActor(canisterId2, { agent }).create(idlFactory2),
+    backend_3 = new SafenoteActor(canisterId3, { agent }).create(idlFactory3);
 
 const backends = [backend_1, backend_2, backend_3];
 

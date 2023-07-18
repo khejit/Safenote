@@ -21,3 +21,5 @@ dist/
 # motoko packages
 .mops/
 .vessel/
+
+ic-domains
