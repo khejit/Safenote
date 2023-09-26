@@ -49,7 +49,7 @@ export default class {
         try {
             return await backend.readKey(id)
         } catch {
-            throw Error("Couldn't read one or more keys from backend.")
+            throw Error(`The note doesn't exist or was read by someone else.`)
         }
     }
 

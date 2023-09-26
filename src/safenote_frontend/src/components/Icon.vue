@@ -11,13 +11,17 @@ export default {
             type: String,
             required: true
         },
-        size: Number
+        size: Number,
+        strokeWidth: Number
     },
     computed: {
         templ() {
+            const size = this.size ? this.size : 24,
+                strokeWidth = this.strokeWidth ? this.strokeWidth : 2;
             return feather.icons[this.name].toSvg(
                 {
-                    width: this.size ? this.size : 24, height: this.size ? this.size : 24
+                    width: size, height: size,
+                    "stroke-width": strokeWidth
                 }
             )
         }
@@ -29,10 +33,10 @@ export default {
 div {
     @include flex-center;
     color: $brand;
-    max-width: 24px;
+    max-width: 100%;
 
     @media (min-width: $bp-sm) {
-        max-width: auto;
+        // max-width: auto;
     }
 }
 </style>
