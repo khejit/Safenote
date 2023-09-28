@@ -25,7 +25,7 @@ npm start
 Which will start a server at `http://localhost:8080`, proxying API requests to the replica at port 4943.
 
 ## Deploying
-Safenote is already hosted on Internet Computer under https://safenote.store/ domain. You can deploy your own instance. Below is a quick guide how to do it.
+Safenote is already hosted on Internet Computer under [safenote.store](https://safenote.store/) domain. You can deploy your own instance. Below is a quick guide how to do it.
 
 We assume you already have Internet Computer identity and ledger associated with it has some icp.
 
@@ -75,3 +75,21 @@ dfx deploy --network ic safenote_backend_1
 9. Do steps 7-8 for **safenote_backend_2** and **safenote_backend_3**.
 
 10. Do the same for **safenote_frontend** canister. You can choose any wallet you like in step 7 for frontend canister. Just bear in mind that if you assign the same wallet for frontend and one of the backend canisters, it will consume more cycles than other wallets.
+
+## Reproducible build
+
+If you want to make sure instance at [safenote.store](https://safenote.store) is build using only source code, and not modified in any way, you can perform [reproducible build](https://internetcomputer.org/docs/current/developer-docs/backend/reproducible-builds) and compare module hash.
+
+Build for this instance was done with following software:
+* Windows 10 Pro, version 22H2, os build 19045.3448
+* WSL 2, Ubuntu
+* dfx 0.12.1
+* Node v16.18.1
+* Webpack 5.83.0, with other packages versions denoted in yarn.lock file
+
+Canister ids deployed for safenote.store are as follows:
+
+* safenote_frontend: rpnbu-7qaaa-aaaan-qdszq-cai
+* safenote_backend_1: ksk5a-baaaa-aaaag-qch5a-cai
+* safenote_backend_2: mffzr-qiaaa-aaaao-a2f3a-cai
+* safenote_backend_3: tmlpy-jqaaa-aaaal-qcbda-cai
