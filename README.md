@@ -96,4 +96,4 @@ Canister ids deployed for safenote.store are as follows:
 
 ## Architecture diagram
 
-![Untitled-2022-11-22-2337](https://github.com/khejit/Safenote/assets/14217088/9cdf4416-0dae-4dd4-b5d4-cc4387e9a146)
+![Untitled-2022-11-22-2337](https://github.com/khejit/Safenote/assets/14217088/6bf4009d-cc0a-4e6c-96c7-aba65f021ae3)
