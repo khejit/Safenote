@@ -93,3 +93,7 @@ Canister ids deployed for safenote.store are as follows:
 * safenote_backend_1: ksk5a-baaaa-aaaag-qch5a-cai
 * safenote_backend_2: mffzr-qiaaa-aaaao-a2f3a-cai
 * safenote_backend_3: tmlpy-jqaaa-aaaal-qcbda-cai
+
+## Architecture diagram
+
+![Untitled-2022-11-22-2337](https://github.com/khejit/Safenote/assets/14217088/9cdf4416-0dae-4dd4-b5d4-cc4387e9a146)
